@@ -5,24 +5,24 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of DSDT.aml, Wed Sep 13 16:52:23 2017
+ * Disassembly of DSDT.aml, Wed Sep 13 23:50:20 2017
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x000161A2 (90530)
+ *     Length           0x0001654D (91469)
  *     Revision         0x02
- *     Checksum         0x55
+ *     Checksum         0x42
  *     OEM ID           "ACRSYS"
  *     OEM Table ID     "ACRPRDCT"
  *     OEM Revision     0x00000000 (0)
- *     Compiler ID      "1025"
- *     Compiler Version 0x00040000 (262144)
+ *     Compiler ID      "INTL"
+ *     Compiler Version 0x20161210 (538317328)
  */
 DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 {
     /*
      * iASL Warning: There were 16 external control methods found during
-     * disassembly, but only 8 were resolved (8 unresolved). Additional
+     * disassembly, but only 15 were resolved (1 unresolved). Additional
      * ACPI tables may be required to properly disassemble the code. This
      * resulting disassembler output file may not compile because the
      * disassembler did not know how many arguments to assign to the
@@ -40,77 +40,76 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
      * because the disassembler had to guess at the number of arguments
      * required for each:
      */
-    External (_GPE.HLVT, MethodObj)    // 0 Arguments
-    External (_PR_.BGIA, FieldUnitObj)
-    External (_PR_.BGMA, FieldUnitObj)
-    External (_PR_.BGMS, FieldUnitObj)
-    External (_PR_.CPPC, FieldUnitObj)
-    External (_PR_.CPU0._PPC, MethodObj)    // 0 Arguments
-    External (_PR_.CPU0._PSS, MethodObj)    // 0 Arguments
-    External (_PR_.CPU0.LPSS, PkgObj)
-    External (_PR_.CPU0.TPSS, UnknownObj)    // Warning: Unknown object
-    External (_PR_.DSAE, FieldUnitObj)
-    External (_PR_.DTSE, FieldUnitObj)
-    External (_PR_.DTSF, FieldUnitObj)
-    External (_PR_.ELNG, FieldUnitObj)
-    External (_PR_.EMNA, FieldUnitObj)
-    External (_PR_.EPCS, FieldUnitObj)
-    External (_PR_.TRPD, FieldUnitObj)
-    External (_PR_.TRPF, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.AINT, MethodObj)    // 2 Arguments
-    External (_SB_.PCI0.GFX0.BLM0, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM1, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM2, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM3, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM4, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM5, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM6, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM7, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM8, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLM9, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLMA, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.BLMX, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.CLID, FieldUnitObj)
-    External (_SB_.PCI0.GFX0.DD1F, UnknownObj)
-    External (_SB_.PCI0.GFX0.GHDS, MethodObj)    // 1 Arguments
-    External (_SB_.PCI0.GFX0.GSCI, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.GFX0.GSSE, FieldUnitObj)
-    External (_SB_.PCI0.PAUD.PUAM, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (_SB_.PCI0.PEG0.HPME, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj)
-    External (_SB_.PCI0.WMID, UnknownObj)    // Warning: Unknown object
-    External (_SB_.PCI0.WMID.FEBC, UnknownObj)    // Warning: Unknown object
-    External (_SB_.PCI0.XHC_.DUAM, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (_SB_.PCI0.XHC_.RHUB.INIR, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (_SB_.TPM_.PTS_, MethodObj)    // Warning: Unknown method, guessing 1 arguments
-    External (_TZ_.TZ00, UnknownObj)    // Warning: Unknown object
-    External (D1F0, UnknownObj)    // Warning: Unknown object
-    External (D1F1, UnknownObj)    // Warning: Unknown object
-    External (D1F2, UnknownObj)    // Warning: Unknown object
-    External (DIDX, FieldUnitObj)
-    External (GSMI, FieldUnitObj)
-    External (IGDS, FieldUnitObj)
-    External (LIDS, FieldUnitObj)
-    External (M32B, FieldUnitObj)
-    External (M32L, FieldUnitObj)
-    External (M64B, FieldUnitObj)
-    External (M64L, FieldUnitObj)
-    External (PDC0, IntObj)
-    External (PDC1, IntObj)
-    External (PDC2, IntObj)
-    External (PDC3, IntObj)
-    External (PDC4, IntObj)
-    External (PDC5, IntObj)
-    External (PDC6, IntObj)
-    External (PDC7, IntObj)
-    External (PS0X, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (PS2X, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (PS3X, MethodObj)    // Warning: Unknown method, guessing 0 arguments
-    External (SDSM, IntObj)    // Warning: Unknown object
-    External (SGMD, FieldUnitObj)
-    External (WMID, UnknownObj)    // Warning: Unknown object
+    External (_GPE.HLVT, MethodObj)    // 0 Arguments (from opcode)
+    External (_PR_.BGIA, FieldUnitObj)    // (from opcode)
+    External (_PR_.BGMA, FieldUnitObj)    // (from opcode)
+    External (_PR_.BGMS, FieldUnitObj)    // (from opcode)
+    External (_PR_.CPPC, FieldUnitObj)    // (from opcode)
+    External (_PR_.CPU0.LPSS, PkgObj)    // (from opcode)
+    External (_PR_.CPU0.TPSS, UnknownObj)    // (from opcode)
+    External (_PR_.DSAE, FieldUnitObj)    // (from opcode)
+    External (_PR_.DTSE, FieldUnitObj)    // (from opcode)
+    External (_PR_.DTSF, FieldUnitObj)    // (from opcode)
+    External (_PR_.ELNG, FieldUnitObj)    // (from opcode)
+    External (_PR_.EMNA, FieldUnitObj)    // (from opcode)
+    External (_PR_.EPCS, FieldUnitObj)    // (from opcode)
+    External (_PR_.TRPD, FieldUnitObj)    // (from opcode)
+    External (_PR_.TRPF, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.AINT, MethodObj)    // 2 Arguments (from opcode)
+    External (_SB_.PCI0.GFX0.BLM0, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM1, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM2, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM3, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM4, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM5, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM6, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM7, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM8, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLM9, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLMA, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.BLMX, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.CLID, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.DD1F, UnknownObj)    // (from opcode)
+    External (_SB_.PCI0.GFX0.GHDS, MethodObj)    // 1 Arguments (from opcode)
+    External (_SB_.PCI0.GFX0.GSCI, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.GFX0.GSSE, FieldUnitObj)    // (from opcode)
+    External (_SB_.PCI0.PAUD.PUAM, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.PEG0.HPME, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.WMID, UnknownObj)    // (from opcode)
+    External (_SB_.PCI0.WMID.FEBC, UnknownObj)    // (from opcode)
+    External (_SB_.PCI0.XHC_.DUAM, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.XHC_.RHUB.INIR, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.TPM_.PTS_, MethodObj)    // 1 Arguments (from opcode)
+    External (_TZ_.TZ00, UnknownObj)    // (from opcode)
+    External (D1F0, UnknownObj)    // (from opcode)
+    External (D1F1, UnknownObj)    // (from opcode)
+    External (D1F2, UnknownObj)    // (from opcode)
+    External (DIDX, FieldUnitObj)    // (from opcode)
+    External (GSMI, FieldUnitObj)    // (from opcode)
+    External (HLVT, MethodObj)    // Warning: Unknown method, guessing 0 arguments
+    External (IGDS, FieldUnitObj)    // (from opcode)
+    External (LIDS, FieldUnitObj)    // (from opcode)
+    External (M32B, FieldUnitObj)    // (from opcode)
+    External (M32L, FieldUnitObj)    // (from opcode)
+    External (M64B, FieldUnitObj)    // (from opcode)
+    External (M64L, FieldUnitObj)    // (from opcode)
+    External (PDC0, IntObj)    // (from opcode)
+    External (PDC1, IntObj)    // (from opcode)
+    External (PDC2, IntObj)    // (from opcode)
+    External (PDC3, IntObj)    // (from opcode)
+    External (PDC4, IntObj)    // (from opcode)
+    External (PDC5, IntObj)    // (from opcode)
+    External (PDC6, IntObj)    // (from opcode)
+    External (PDC7, IntObj)    // (from opcode)
+    External (PS0X, MethodObj)    // 0 Arguments (from opcode)
+    External (PS2X, MethodObj)    // 0 Arguments (from opcode)
+    External (PS3X, MethodObj)    // 0 Arguments (from opcode)
+    External (SDSM, IntObj)    // (from opcode)
+    External (SGMD, FieldUnitObj)    // (from opcode)
+    External (WMID, UnknownObj)    // (from opcode)
 
     Name (SS1, Zero)
     Name (SS2, Zero)
@@ -1103,7 +1102,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         TBTM,   32
     }
 
-    OperationRegion (OGNS, SystemMemory, 0x77FA3F98, 0x0000000C)
+    OperationRegion (OGNS, SystemMemory, 0x77FA3F98, 0x0C)
     Field (OGNS, AnyAcc, Lock, Preserve)
     {
         OG00,   8, 
@@ -3196,10 +3195,10 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                         {
                             Return (PCID (Arg0, Arg1, Arg2, Arg3))
                         }
-                        
+
                         Return (Zero)
                     }
-                                        
+
                     Name (_ADR, 0x00040000)  // _ADR: Address
                 }
             }
@@ -4484,8 +4483,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         Device (LPCB)
         {
             Name (_ADR, 0x001F0000)  // _ADR: Address
-            
-
             OperationRegion (LPC, PCI_Config, Zero, 0x0100)
             Field (LPC, AnyAcc, NoLock, Preserve)
             {
@@ -4514,12 +4511,21 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     ,   2, 
                 ESPI,   1
             }
-            Method (_DSM, 4, NotSerialized)
+
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
             {
-                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
-                Return (Package()
+                If (LEqual (Arg2, Zero))
                 {
-                    "compatible", "pci8086,9cc1",
+                    Return (Buffer (One)
+                    {
+                         0x03                                           
+                    })
+                }
+
+                Return (Package (0x02)
+                {
+                    "compatible", 
+                    "pci8086,9cc1"
                 })
             }
         }
@@ -6218,19 +6224,35 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     Store (Zero, MBCG)
                 }
             }
-            Method (_DSM, 4, NotSerialized)
+
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
             {
-                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
-                Return (Package()
+                If (LEqual (Arg2, Zero))
                 {
-                    "layout-id", Buffer() { 3, 0x00, 0x00, 0x00 },
-                    "hda-gfx", Buffer() { "onboard-1" },
-                    "PinConfigurations", Buffer() { },
-                    //"MaximumBootBeepVolume", 77,
+                    Return (Buffer (One)
+                    {
+                         0x03                                           
+                    })
+                }
+
+                Return (Package (0x06)
+                {
+                    "layout-id", 
+                    Buffer (0x04)
+                    {
+                         0x03, 0x00, 0x00, 0x00                         
+                    }, 
+
+                    "hda-gfx", 
+                    Buffer (0x0A)
+                    {
+                        "onboard-1"
+                    }, 
+
+                    "PinConfigurations", 
+                    Buffer (Zero) {}
                 })
             }
-
-            
         }
 
         Device (RP01)
@@ -9724,7 +9746,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
             {
                 Store (LTRF, LTRN)
                 Store (PMLF, LMSL)
-                Store(\PNLF, LNSL)
+                Store (\PNLF, LNSL)
                 Store (OBFF, OBFN)
             }
 
@@ -12903,7 +12925,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
-                
+
                 Return (Zero)
             }
 
@@ -12988,7 +13010,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
-                
+
                 Return (Zero)
             }
 
@@ -13818,7 +13840,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
-                    
+
                     Return (Zero)
                 }
 
@@ -13919,7 +13941,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
-                    
+
                     Return (Zero)
                 }
 
@@ -13946,7 +13968,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
-                
+
                 Return (Zero)
             }
         }
@@ -13963,7 +13985,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
-                
+
                 Return (Zero)
             }
         }
@@ -22280,7 +22302,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Name (BUFN, Zero)
     Name (MBUF, Buffer (0x1000) {})
-    OperationRegion (MDBG, SystemMemory, 0x77F8C018, 0x00001004)
+    OperationRegion (MDBG, SystemMemory, 0x77F8C018, 0x1004)
     Field (MDBG, AnyAcc, Lock, Preserve)
     {
         MDG0,   32768
@@ -23320,15 +23342,16 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
     Method (WAK, 1, NotSerialized)
     {
     }
+
     Scope (_SB)
     {
         Device (PNLF)
         {
-            Name (_ADR, Zero)
-            Name (_HID, EisaId ("APP0002"))
-            Name (_CID, "backlight")
-            Name (_UID, 10)
-            Name (_STA, 0x0B)
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, EisaId ("APP0002"))  // _HID: Hardware ID
+            Name (_CID, "backlight")  // _CID: Compatible ID
+            Name (_UID, 0x0A)  // _UID: Unique ID
+            Name (_STA, 0x0B)  // _STA: Status
         }
     }
 }
