@@ -2980,7 +2980,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 Subtract (Add (M1MN, M1LN), One, M1MX)
                 If (LEqual (M64L, Zero))
                 {
-                    CreateDWordField (BUF0, \_SB.PCI0._Y0F._LEN, MSLN)  // _LEN: Length
+                    CreateQWordField (BUF0, \_SB.PCI0._Y0F._LEN, MSLN)  // _LEN: Length
                     Store (Zero, MSLN)
                 }
                 Else
