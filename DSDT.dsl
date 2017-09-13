@@ -12903,6 +12903,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
+                
+                Return (Zero)
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -12986,6 +12988,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
+                
+                Return (Zero)
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -13814,6 +13818,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
+                    
+                    Return (Zero)
                 }
 
                 Device (CARD)
@@ -13913,6 +13919,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
+                    
+                    Return (Zero)
                 }
 
                 Device (CARD)
@@ -13938,6 +13946,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
+                
+                Return (Zero)
             }
         }
     }
@@ -13953,6 +13963,8 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
+                
+                Return (Zero)
             }
         }
     }
