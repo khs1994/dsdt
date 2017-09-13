@@ -3196,8 +3196,10 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                         {
                             Return (PCID (Arg0, Arg1, Arg2, Arg3))
                         }
+                        
+                        Return (Zero)
                     }
-
+                                        
                     Name (_ADR, 0x00040000)  // _ADR: Address
                 }
             }
