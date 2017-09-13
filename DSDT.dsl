@@ -9720,7 +9720,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
             {
                 Store (LTRF, LTRN)
                 Store (PMLF, LMSL)
-                Store (PNLF, LNSL)
+                Store(\PNLF, LNSL)
                 Store (OBFF, OBFN)
             }
 
@@ -23303,6 +23303,17 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Method (WAK, 1, NotSerialized)
     {
+    }
+    Scope (_SB)
+    {
+        Device (PNLF)
+        {
+            Name (_ADR, Zero)
+            Name (_HID, EisaId ("APP0002"))
+            Name (_CID, "backlight")
+            Name (_UID, 10)
+            Name (_STA, 0x0B)
+        }
     }
 }
 
