@@ -11287,10 +11287,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 If (CondRefOf (\_SB.PCI0.SAT0.SDSM))
                 {
                     Return (SDSM)
-                    Arg0
-                    Arg1
-                    Arg2
-                    Arg3
                 }
 
                 Return (Zero)
