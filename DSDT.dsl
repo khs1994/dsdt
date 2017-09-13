@@ -4481,15 +4481,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         Device (LPCB)
         {
             Name (_ADR, 0x001F0000)  // _ADR: Address
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                If (PCIC (Arg0))
-                {
-                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
-                }
-
-                Return (Zero)
-            }
+            
 
             OperationRegion (LPC, PCI_Config, Zero, 0x0100)
             Field (LPC, AnyAcc, NoLock, Preserve)
@@ -4518,6 +4510,14 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 Offset (0xDC), 
                     ,   2, 
                 ESPI,   1
+            }
+            Method (_DSM, 4, NotSerialized)
+            {
+                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
+                Return (Package()
+                {
+                    "compatible", "pci8086,9cc1",
+                })
             }
         }
 
