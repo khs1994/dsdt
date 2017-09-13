@@ -6215,103 +6215,19 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     Store (Zero, MBCG)
                 }
             }
-
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            Method (_DSM, 4, NotSerialized)
             {
-                Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler
-                Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                If (PCIC (Arg0))
+                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
+                Return (Package()
                 {
-                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
-                }
-
-                If (LEqual (Arg0, ToUUID ("a69f886e-6ceb-4594-a41f-7b5dce24c553")))
-                {
-                    While (One)
-                    {
-                        Store (Arg2, _T_0)
-                        If (LEqual (_T_0, Zero))
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x0F                                           
-                            })
-                        }
-                        ElseIf (LEqual (_T_0, One))
-                        {
-                            Return (NBUF)
-                        }
-                        ElseIf (LEqual (_T_0, 0x02))
-                        {
-                            Return (ADFM)
-                        }
-                        ElseIf (LEqual (_T_0, 0x03))
-                        {
-                            Return (Zero)
-                        }
-                        Else
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x00                                           
-                            })
-                        }
-
-                        Break
-                    }
-                }
-
-                If (LEqual (Arg0, ToUUID ("1730e71d-e5dd-4a34-be57-4d76b6a2fe37")))
-                {
-                    If (LEqual (Arg2, Zero))
-                    {
-                        If (LEqual (Arg1, Zero))
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x03                                           
-                            })
-                        }
-                        Else
-                        {
-                            Return (Zero)
-                        }
-                    }
-
-                    If (LEqual (Arg2, One))
-                    {
-                        While (One)
-                        {
-                            Store (DerefOf (Index (Arg3, Zero)), _T_1)
-                            If (LEqual (_T_1, Zero)) {}
-                            ElseIf (LEqual (_T_1, One))
-                            {
-                                If (CondRefOf (\_SB.SLPB))
-                                {
-                                    Notify (SLPB, 0x80)
-                                    P8XH (Zero, 0x5D)
-                                }
-                            }
-                            ElseIf (LEqual (_T_1, 0x02)) {}
-                            ElseIf (LEqual (_T_1, 0x03)) {}
-                            Break
-                        }
-
-                        Return (Zero)
-                    }
-                    Else
-                    {
-                        Return (Zero)
-                    }
-                }
-                Else
-                {
-                    Return (Buffer (One)
-                    {
-                         0x00                                           
-                    })
-                }
+                    "layout-id", Buffer() { 3, 0x00, 0x00, 0x00 },
+                    "hda-gfx", Buffer() { "onboard-1" },
+                    "PinConfigurations", Buffer() { },
+                    //"MaximumBootBeepVolume", 77,
+                })
             }
+
+            
         }
 
         Device (RP01)
