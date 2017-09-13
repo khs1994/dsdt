@@ -5,42 +5,21 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of DSDT.aml, Wed Sep 13 23:50:20 2017
+ * Disassembly of DSDT.aml, Wed Sep 13 23:44:40 2017
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x0001654D (91469)
+ *     Length           0x00016598 (91544)
  *     Revision         0x02
- *     Checksum         0x42
+ *     Checksum         0x58
  *     OEM ID           "ACRSYS"
  *     OEM Table ID     "ACRPRDCT"
  *     OEM Revision     0x00000000 (0)
  *     Compiler ID      "INTL"
- *     Compiler Version 0x20161210 (538317328)
+ *     Compiler Version 0x20160328 (538313512)
  */
 DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 {
-    /*
-     * iASL Warning: There were 16 external control methods found during
-     * disassembly, but only 15 were resolved (1 unresolved). Additional
-     * ACPI tables may be required to properly disassemble the code. This
-     * resulting disassembler output file may not compile because the
-     * disassembler did not know how many arguments to assign to the
-     * unresolved methods. Note: SSDTs can be dynamically loaded at
-     * runtime and may or may not be available via the host OS.
-     *
-     * In addition, the -fe option can be used to specify a file containing
-     * control method external declarations with the associated method
-     * argument counts. Each line of the file must be of the form:
-     *     External (<method pathname>, MethodObj, <argument count>)
-     * Invocation:
-     *     iasl -fe refs.txt -d dsdt.aml
-     *
-     * The following methods were unresolved and many not compile properly
-     * because the disassembler had to guess at the number of arguments
-     * required for each:
-     */
-    External (_GPE.HLVT, MethodObj)    // 0 Arguments (from opcode)
     External (_PR_.BGIA, FieldUnitObj)    // (from opcode)
     External (_PR_.BGMA, FieldUnitObj)    // (from opcode)
     External (_PR_.BGMS, FieldUnitObj)    // (from opcode)
@@ -79,7 +58,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
     External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.PCI0.WMID, UnknownObj)    // (from opcode)
-    External (_SB_.PCI0.WMID.FEBC, UnknownObj)    // (from opcode)
+    External (_SB_.PCI0.WMID.FEBC, BuffObj)    // (from opcode)
     External (_SB_.PCI0.XHC_.DUAM, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.PCI0.XHC_.RHUB.INIR, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.TPM_.PTS_, MethodObj)    // 1 Arguments (from opcode)
@@ -89,7 +68,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
     External (D1F2, UnknownObj)    // (from opcode)
     External (DIDX, FieldUnitObj)    // (from opcode)
     External (GSMI, FieldUnitObj)    // (from opcode)
-    External (HLVT, MethodObj)    // Warning: Unknown method, guessing 0 arguments
+    External (HLVT, MethodObj)    // 0 Arguments (from opcode)
     External (IGDS, FieldUnitObj)    // (from opcode)
     External (LIDS, FieldUnitObj)    // (from opcode)
     External (M32B, FieldUnitObj)    // (from opcode)
@@ -3344,7 +3323,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         PNLC,   16, 
         PNLD,   16, 
         PNLE,   16, 
-        PNLF,   16, 
+        PNFL,   16, 
         PNLG,   16, 
         PNLH,   16, 
         PNLI,   16, 
@@ -5732,69 +5711,83 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     }
                 }
 
+                Method (GPLD, 2, Serialized)
+                {
+                    Name (PCKG, Package (0x01)
+                    {
+                        Buffer (0x10) {}
+                    })
+                    CreateField (DerefOf (Index (PCKG, Zero)), Zero, 0x07, REV)
+                    Store (One, REV)
+                    CreateField (DerefOf (Index (PCKG, Zero)), 0x40, One, VISI)
+                    Store (Arg0, VISI)
+                    CreateField (DerefOf (Index (PCKG, Zero)), 0x57, 0x08, GPOS)
+                    Store (Arg1, GPOS)
+                    Return (PCKG)
+                }
+
+                Method (GUPC, 1, Serialized)
+                {
+                    Name (PCKG, Package (0x04)
+                    {
+                        Zero, 
+                        0xFF, 
+                        Zero, 
+                        Zero
+                    })
+                    Store (Arg0, Index (PCKG, Zero))
+                    Return (PCKG)
+                }
+
                 Device (HS01)
                 {
                     Name (_ADR, One)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (One, 0x02))
+                    }
+
+                    Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+                    {
+                        Return (0x03)
+                    }
+
+                    Method (_S4D, 0, NotSerialized)  // _S4D: S4 Device State
+                    {
+                        Return (0x03)
+                    }
                 }
 
                 Device (HS02)
                 {
                     Name (_ADR, 0x02)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (One, 0x02))
+                    }
                 }
 
                 Device (HS03)
                 {
-                    Name (_ADR, 0x03)  // _ADR: Address
-                }
-
-                Device (HS04)
-                {
                     Name (_ADR, 0x04)  // _ADR: Address
-                }
-
-                Device (HS05)
-                {
-                    Name (_ADR, 0x05)  // _ADR: Address
-                }
-
-                Device (HS06)
-                {
-                    Name (_ADR, 0x06)  // _ADR: Address
-                }
-
-                Device (HS07)
-                {
-                    Name (_ADR, 0x07)  // _ADR: Address
-                }
-
-                Device (HS08)
-                {
-                    Name (_ADR, 0x08)  // _ADR: Address
-                }
-
-                Device (HS09)
-                {
-                    Name (_ADR, 0x09)  // _ADR: Address
-                }
-
-                Device (HS10)
-                {
-                    Name (_ADR, 0x0A)  // _ADR: Address
-                }
-
-                Device (USR1)
-                {
-                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
                     {
-                        Return (Add (USRA (), Zero))
+                        Return (GUPC (One))
                     }
-                }
 
-                Device (USR2)
-                {
-                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
                     {
-                        Return (Add (USRA (), One))
+                        Return (GPLD (One, 0x04))
                     }
                 }
 
@@ -5804,6 +5797,26 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     {
                         Return (Add (SSPA (), Zero))
                     }
+
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (One, One))
+                    }
+
+                    Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+                    {
+                        Return (0x03)
+                    }
+
+                    Method (_S4D, 0, NotSerialized)  // _S4D: S4 Device State
+                    {
+                        Return (0x03)
+                    }
                 }
 
                 Device (SS02)
@@ -5812,96 +5825,108 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     {
                         Return (Add (SSPA (), One))
                     }
-                }
 
-                Device (SS03)
-                {
-                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
                     {
-                        Return (Add (SSPA (), 0x02))
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (One, 0x02))
                     }
                 }
 
-                Device (SS04)
+                Device (HSBT)
                 {
-                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    Name (_ADR, 0x05)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
                     {
-                        Return (Add (SSPA (), 0x03))
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (Zero, 0x05))
                     }
                 }
 
-                Device (SS05)
+                Device (HDWC)
                 {
-                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    Name (_ADR, 0x07)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
                     {
-                        Return (Add (SSPA (), 0x04))
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (Zero, 0x07))
+                    }
+
+                    Device (WCAM)
+                    {
+                        Name (_ADR, 0x07)  // _ADR: Address
+                        Name (_PLD, Package (0x01)  // _PLD: Physical Location of Device
+                        {
+                            Buffer (0x14)
+                            {
+                                /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x25, 0x1D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                         
+                            }
+                        })
                     }
                 }
 
-                Device (SS06)
+                Device (HCRW)
+                {
+                    Name (_ADR, 0x08)  // _ADR: Address
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (One))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (Zero, 0x08))
+                    }
+                }
+
+                Device (USR1)
                 {
                     Method (_ADR, 0, NotSerialized)  // _ADR: Address
                     {
-                        Return (Add (SSPA (), 0x05))
+                        Return (Add (USRA (), Zero))
+                    }
+
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (Zero))
+                    }
+
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (Zero, Zero))
                     }
                 }
-            }
-        }
-    }
 
-    If (LEqual (PCHV (), SPTH))
-    {
-        Scope (_SB.PCI0.XHC.RHUB)
-        {
-            Device (HS11)
-            {
-                Name (_ADR, 0x0B)  // _ADR: Address
-            }
-
-            Device (HS12)
-            {
-                Name (_ADR, 0x0C)  // _ADR: Address
-            }
-
-            Device (HS13)
-            {
-                Name (_ADR, 0x0D)  // _ADR: Address
-            }
-
-            Device (HS14)
-            {
-                Name (_ADR, 0x0E)  // _ADR: Address
-            }
-
-            Device (SS07)
-            {
-                Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                Device (USR2)
                 {
-                    Return (Add (SSPA (), 0x06))
-                }
-            }
+                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    {
+                        Return (Add (USRA (), One))
+                    }
 
-            Device (SS08)
-            {
-                Method (_ADR, 0, NotSerialized)  // _ADR: Address
-                {
-                    Return (Add (SSPA (), 0x07))
-                }
-            }
+                    Method (_UPC, 0, NotSerialized)  // _UPC: USB Port Capabilities
+                    {
+                        Return (GUPC (Zero))
+                    }
 
-            Device (SS09)
-            {
-                Method (_ADR, 0, NotSerialized)  // _ADR: Address
-                {
-                    Return (Add (SSPA (), 0x08))
-                }
-            }
-
-            Device (SS10)
-            {
-                Method (_ADR, 0, NotSerialized)  // _ADR: Address
-                {
-                    Return (Add (SSPA (), 0x09))
+                    Method (_PLD, 0, NotSerialized)  // _PLD: Physical Location of Device
+                    {
+                        Return (GPLD (Zero, Zero))
+                    }
                 }
             }
         }
@@ -6190,22 +6215,9 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                         Return (One)
                     }
                 }
-                Else
+                ElseIf (LEqual (^^LPCB.CRID, Zero))
                 {
-                    If (LEqual (^^LPCB.CRID, Zero))
-                    {
-                        Return (One)
-                    }
-
-                    If (LEqual (^^LPCB.CRID, One))
-                    {
-                        Return (One)
-                    }
-
-                    If (LEqual (^^LPCB.CRID, 0x09))
-                    {
-                        Return (One)
-                    }
+                    Return (One)
                 }
 
                 Return (Zero)
@@ -9746,7 +9758,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
             {
                 Store (LTRF, LTRN)
                 Store (PMLF, LMSL)
-                Store (\PNLF, LNSL)
+                Store (PNFL, LNSL)
                 Store (OBFF, OBFN)
             }
 
@@ -13976,7 +13988,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Scope (_SB.PCI0)
     {
-        Device (HECI)
+        Device (IMEI)
         {
             Name (_ADR, 0x00160000)  // _ADR: Address
             Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
@@ -14999,6 +15011,10 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
             Name (_UID, Zero)  // _UID: Unique ID
             Name (BUF0, ResourceTemplate ()
             {
+                IRQNoFlags ()
+                    {0}
+                IRQNoFlags ()
+                    {8}
                 Memory32Fixed (ReadWrite,
                     0xFED00000,         // Address Base
                     0x00000400,         // Address Length
