@@ -4344,7 +4344,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         Method (_L6D, 0, Serialized)  // _Lxx: Level-Triggered GPE
         {
             \_SB.PCI0.XHC.GPEH ()
-            \_SB.PCI0.HDAS.GPEH ()
+            \_SB.PCI0.HDEF.GPEH ()
             \_SB.PCI0.XDCI.GPEH ()
         }
     }
@@ -6121,7 +6121,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Scope (_SB.PCI0)
     {
-        Device (HDAS)
+        Device (HDEF)
         {
             Name (_ADR, 0x001F0003)  // _ADR: Address
             OperationRegion (HDAR, PCI_Config, Zero, 0x0100)
@@ -6159,7 +6159,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 If (LAnd (PMEE, PMES))
                 {
                     Store (One, PMES)
-                    Notify (HDAS, 0x02)
+                    Notify (HDEF, 0x02)
                 }
             }
 
@@ -6205,9 +6205,9 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
             Method (_INI, 0, NotSerialized)  // _INI: Initialize
             {
-                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._MIN, NBAS)  // _MIN: Minimum Base Address
-                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._MAX, NMAS)  // _MAX: Maximum Base Address
-                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._LEN, NLEN)  // _LEN: Length
+                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._MIN, NBAS)  // _MIN: Minimum Base Address
+                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._MAX, NMAS)  // _MAX: Maximum Base Address
+                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._LEN, NLEN)  // _LEN: Length
                 Store (NHLA, NBAS)
                 Add (NHLA, Subtract (NHLL, One), NMAS)
                 Store (NHLL, NLEN)
