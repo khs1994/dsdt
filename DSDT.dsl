@@ -79,7 +79,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
     External (_SB_.PCI0.PEG0.HPME, MethodObj)    // Warning: Unknown method, guessing 0 arguments
     External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj)
+    External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj) 
     External (_SB_.PCI0.WMID, UnknownObj)    // Warning: Unknown object
     External (_SB_.PCI0.WMID.FEBC, UnknownObj)    // Warning: Unknown object
     External (_SB_.PCI0.XHC_.DUAM, MethodObj)    // Warning: Unknown method, guessing 0 arguments
@@ -3196,10 +3196,9 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                         {
                             Return (PCID (Arg0, Arg1, Arg2, Arg3))
                         }
-                        
                         Return (Zero)
                     }
-                                        
+
                     Name (_ADR, 0x00040000)  // _ADR: Address
                 }
             }
@@ -4346,7 +4345,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         Method (_L6D, 0, Serialized)  // _Lxx: Level-Triggered GPE
         {
             \_SB.PCI0.XHC.GPEH ()
-            \_SB.PCI0.HDEF.GPEH ()
+            \_SB.PCI0.HDAS.GPEH ()
             \_SB.PCI0.XDCI.GPEH ()
         }
     }
@@ -4484,7 +4483,15 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
         Device (LPCB)
         {
             Name (_ADR, 0x001F0000)  // _ADR: Address
-            
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If (PCIC (Arg0))
+                {
+                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                }
+
+                Return (Zero)
+            }
 
             OperationRegion (LPC, PCI_Config, Zero, 0x0100)
             Field (LPC, AnyAcc, NoLock, Preserve)
@@ -4513,14 +4520,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 Offset (0xDC), 
                     ,   2, 
                 ESPI,   1
-            }
-            Method (_DSM, 4, NotSerialized)
-            {
-                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
-                Return (Package()
-                {
-                    "compatible", "pci8086,9cc1",
-                })
             }
         }
 
@@ -6123,7 +6122,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Scope (_SB.PCI0)
     {
-        Device (HDEF)
+        Device (HDAS)
         {
             Name (_ADR, 0x001F0003)  // _ADR: Address
             OperationRegion (HDAR, PCI_Config, Zero, 0x0100)
@@ -6161,7 +6160,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 If (LAnd (PMEE, PMES))
                 {
                     Store (One, PMES)
-                    Notify (HDEF, 0x02)
+                    Notify (HDAS, 0x02)
                 }
             }
 
@@ -6207,9 +6206,9 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
             Method (_INI, 0, NotSerialized)  // _INI: Initialize
             {
-                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._MIN, NBAS)  // _MIN: Minimum Base Address
-                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._MAX, NMAS)  // _MAX: Maximum Base Address
-                CreateQWordField (NBUF, \_SB.PCI0.HDEF._Y14._LEN, NLEN)  // _LEN: Length
+                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._MIN, NBAS)  // _MIN: Minimum Base Address
+                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._MAX, NMAS)  // _MAX: Maximum Base Address
+                CreateQWordField (NBUF, \_SB.PCI0.HDAS._Y14._LEN, NLEN)  // _LEN: Length
                 Store (NHLA, NBAS)
                 Add (NHLA, Subtract (NHLL, One), NMAS)
                 Store (NHLL, NLEN)
@@ -6255,7 +6254,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 Store (OBF1, OBFN)
                 ^PXSX._OFF ()
             }
-
+            
             OperationRegion (PXCS, PCI_Config, Zero, 0x0480)
             Field (PXCS, AnyAcc, NoLock, Preserve)
             {
@@ -9724,7 +9723,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
             {
                 Store (LTRF, LTRN)
                 Store (PMLF, LMSL)
-                Store(\PNLF, LNSL)
+                Store (PNLF, LNSL)
                 Store (OBFF, OBFN)
             }
 
@@ -12889,6 +12888,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                                  0x00                                           
                             })
                         }
+                        Return (Zero)
                     }
 
                     If (LEqual (Arg2, One))
@@ -12903,8 +12903,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
-                
-                Return (Zero)
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -12988,7 +12986,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                          0x00                                           
                     })
                 }
-                
                 Return (Zero)
             }
 
@@ -13818,7 +13815,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
-                    
                     Return (Zero)
                 }
 
@@ -13919,7 +13915,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                              0x00                                           
                         })
                     }
-                    
                     Return (Zero)
                 }
 
@@ -13946,7 +13941,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
-                
                 Return (Zero)
             }
         }
@@ -13963,7 +13957,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
-                
                 Return (Zero)
             }
         }
@@ -16486,17 +16479,17 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                     Store (0x07D3, OSYS)
                 }
 
-                If (_OSI ("Windows 2006"))
+                If(LOr(_OSI("Darwin"),_OSI("Windows 2006")))
                 {
                     Store (0x07D6, OSYS)
                 }
 
-                If (_OSI ("Windows 2009"))
+                If(LOr(_OSI("Darwin"),_OSI("Windows 2009")))
                 {
                     Store (0x07D9, OSYS)
                 }
 
-                If (_OSI ("Windows 2012"))
+                If(LOr(_OSI("Darwin"),_OSI("Windows 2012")))
                 {
                     Store (0x07DC, OSYS)
                 }
@@ -23319,17 +23312,6 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
 
     Method (WAK, 1, NotSerialized)
     {
-    }
-    Scope (_SB)
-    {
-        Device (PNLF)
-        {
-            Name (_ADR, Zero)
-            Name (_HID, EisaId ("APP0002"))
-            Name (_CID, "backlight")
-            Name (_UID, 10)
-            Name (_STA, 0x0B)
-        }
     }
 }
 
