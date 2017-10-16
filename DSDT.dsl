@@ -79,6 +79,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
     External (_SB_.PCI0.PEG0.HPME, MethodObj)    // Warning: Unknown method, guessing 0 arguments
     External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments
+    External (_SB_.PCI0.RP01.PXSX._OFF, MethodObj)
     External (_SB_.PCI0.WMID, UnknownObj)
     External (_SB_.PCI0.WMID.FEBC, BuffObj)
     External (_SB_.PCI0.XHC_.DUAM, MethodObj)    // Warning: Unknown method, guessing 0 arguments
@@ -6333,6 +6334,7 @@ DefinitionBlock ("", "DSDT", 2, "ACRSYS", "ACRPRDCT", 0x00000000)
                 Store (PML1, LMSL)
                 Store (PNL1, LNSL)
                 Store (OBF1, OBFN)
+                ^PXSX._OFF ()
             }
 
             OperationRegion (PXCS, PCI_Config, Zero, 0x0480)
